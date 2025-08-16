@@ -89,7 +89,7 @@ export async function postMessage(messageData) {
   if (messageData.attachment)
     formData.append("attachment", messageData.attachment);
 
-  const res = await api.post("/chat/message", formData, {
+  const res = await api.post("/chat/messages", formData, {
     credentials: "include",
     headers: {
       Cookie: `token=${jwt?.value}`,

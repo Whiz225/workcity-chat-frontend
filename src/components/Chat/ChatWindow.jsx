@@ -43,6 +43,7 @@ export default function ChatWindow({ userId }) {
     if (!message.trim() && !attachment) return;
 
     const formData = new FormData();
+
     formData.append("conversation", activeConversation?._id);
     if (message) formData.append("content", message);
     if (attachment) formData.append("attachment", attachment);

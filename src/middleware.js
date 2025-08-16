@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { verifyToken } from "@/lib/auth";
 import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/auth";
 
 const protectedRoutes = [
   "/chat",
