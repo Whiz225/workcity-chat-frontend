@@ -78,6 +78,32 @@ export async function getConversationById(conversationId) {
   }
 }
 
+// export async function postMessage(messageData) {
+//   const cookieStore = cookies();
+//   const jwt = cookieStore.get("token");
+
+//   const formData = new FormData();
+//   if (messageData.conversation)
+//     formData.append("conversation", messageData.conversation);
+//   if (messageData.content) formData.append("content", messageData.content);
+//   if (messageData.attachment)
+//     formData.append("attachment", messageData.attachment);
+
+//   const res = await api.post("/chat/messages", formData, {
+//     credentials: "include",
+//     headers: {
+//       Cookie: `token=${jwt?.value}`,
+//       "Content-Type": "multipart/form-data",
+//     },
+//   });
+
+//   if (res.data.status !== "success") {
+//     throw new Error(res.data.message || "Failed to send message");
+//   }
+
+//   return res.data;
+// }
+
 export async function postMessage(messageData) {
   const cookieStore = cookies();
   const jwt = cookieStore.get("token");
@@ -89,17 +115,22 @@ export async function postMessage(messageData) {
   if (messageData.attachment)
     formData.append("attachment", messageData.attachment);
 
-  const res = await api.post("/chat/messages", formData, {
-    credentials: "include",
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat/messages`, {
+    method: "POST",
+    body: formData,
     headers: {
       Cookie: `token=${jwt?.value}`,
       "Content-Type": "multipart/form-data",
     },
   });
 
-  if (res.data.status !== "success") {
-    throw new Error(res.data.message || "Failed to send message");
-  }
+  console.log("res", res);
 
-  return res.data;
+  if (!res.ok) throw new Error("Error sending message");
+  const data = await res.json();
+  if (data.status !== "success") throw new Error("Error sending message");
+
+  console.log("data", data.data);
+
+  return data.data;
 }

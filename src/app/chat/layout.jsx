@@ -8,7 +8,7 @@ export default async function ChatLayout({ children }) {
   return (
     <div className="h-[calc(100vh-64px)] flex">
       <div className="w-1/3 border-r border-gray-200">
-        <ChatList user={user} />
+        <ChatList user={user || ""} />
       </div>
       <div className="w-2/3">{children}</div>
     </div>
