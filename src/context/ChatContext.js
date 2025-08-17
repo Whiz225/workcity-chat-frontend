@@ -1,7 +1,6 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSocket } from "../lib/socket";
-import api from "../lib/api";
 
 const ChatContext = createContext();
 
@@ -17,13 +16,15 @@ export const ChatProvider = ({ children }) => {
     if (!socket) return;
 
     socket.on("message", (message) => {
-      if (message.conversation === activeConversation?._id) {
+      // if (message.conversation === activeConversation?._id) {
+      if (message.conversation === activeConversation) {
         setMessages((prev) => [...prev, message]);
       }
     });
 
     socket.on("typing", ({ userId, userName, conversationId }) => {
-      if (conversationId === activeConversation?._id) {
+      // if (conversationId === activeConversation?._id) {
+      if (conversationId === activeConversation) {
         setTypingUsers((prev) => {
           if (!prev.some((u) => u.userId === userId)) {
             return [...prev, { userId, userName }];
@@ -97,7 +98,7 @@ export const ChatProvider = ({ children }) => {
 
   const sendMessage = async (formData) => {
     if (!activeConversation) return;
-    console.log("Message...");
+    console.log("Message...", formData.get("conversation"));
 
     try {
       const res = await fetch("/api/chat/sendMessage", {
@@ -116,17 +117,20 @@ export const ChatProvider = ({ children }) => {
 
       if (data.status !== "success") throw new Error("Error sending message");
 
-      console.log("data", data.data);
+      console.log("data", data);
 
       socket.emit("sendMessage", data.data);
-      setMessages((prev) => [...prev, data]);
+      setMessages((prev) => [...prev, data.data]);
     } catch (err) {
       console.error("Error sending message:", err);
     }
   };
 
+  console.log("socket", socket);
+
   const sendTypingIndicator = (conversationId) => {
-    if (!activeConversation?.otherUser) return;
+    if (!activeConversation) return;
+    // if (!activeConversation?.otherUser) return;
     socket.emit("typing", {
       conversationId,
       userId: socket.id,

@@ -8,7 +8,7 @@ export default async function Home({ searchParams }) {
   const user = cookieStore.get("name")?.value || "";
 
   return (
-    <div className={`"py-12" ${mode === "light" ? "" : "bg-white/80"}`}>
+    <div className={`py-12 ${mode === "light" ? "" : "bg-white/80"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">

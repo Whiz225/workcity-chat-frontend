@@ -1,4 +1,3 @@
-"use client";
 import RegisterForm from "../../../components/Auth/RegisterForm";
 
 export default function RegisterPage({ searchParams }) {
@@ -6,7 +5,7 @@ export default function RegisterPage({ searchParams }) {
 
   return (
     <div
-      className={`"flex items-center justify-center min-h-screen" ${
+      className={`flex items-center justify-center min-h-screen ${
         mode === "light" ? "" : "bg-white/40"
       }`}
     >

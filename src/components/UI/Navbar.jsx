@@ -24,6 +24,7 @@ export default function Navbar() {
       role: getCookie("role"),
       id: getCookie("userId"),
     };
+    console.log("user1",userData)
     setUser(userData);
   }, [pathname]);
 

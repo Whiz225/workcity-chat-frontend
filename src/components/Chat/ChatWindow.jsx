@@ -44,7 +44,8 @@ export default function ChatWindow({ userId }) {
 
     const formData = new FormData();
 
-    formData.append("conversation", activeConversation?._id);
+    // formData.append("conversation", activeConversation?._id);
+    formData.append("conversation", activeConversation);
     if (message) formData.append("content", message);
     if (attachment) formData.append("attachment", attachment);
 
@@ -67,18 +68,22 @@ export default function ChatWindow({ userId }) {
         }`}
       >
         <h2 className="text-xl font-semibold">
-          {activeConversation?.otherUser?.name}
-          {onlineUsers.includes(activeConversation?.otherUser?._id) && (
+          {activeConversation}
+          {/* {activeConversation?.otherUser?.name} */}
+          {/* {onlineUsers.includes(activeConversation?.otherUser?._id) && ( */}
+          {onlineUsers.includes(activeConversation) && (
             <span className="ml-2 text-xs text-green-500">Online</span>
           )}
         </h2>
         {typingUsers.some(
-          (u) => u.userId === activeConversation?.otherUser?._id
+          // (u) => u.userId === activeConversation?.otherUser?._id
+          (u) => u.userId === activeConversation
         ) && (
           <p className="text-sm text-gray-500">
             {
               typingUsers.find(
-                (u) => u.userId === activeConversation?.otherUser?._id
+                // (u) => u.userId === activeConversation?.otherUser?._id
+                (u) => u.userId === activeConversation
               )?.userName
             }{" "}
             is typing...
@@ -87,9 +92,10 @@ export default function ChatWindow({ userId }) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((msg) => (
-          <Message key={msg._id} message={msg} userId={userId} />
-        ))}
+        {messages.length >= 1 &&
+          messages.map((msg) => (
+            <Message key={msg._id} message={msg} userId={userId} />
+          ))}
         <div ref={messagesEndRef} />
       </div>
 
@@ -124,12 +130,14 @@ export default function ChatWindow({ userId }) {
               setMessage(e.target.value);
               if (!isTyping) {
                 setIsTyping(true);
-                sendTypingIndicator(activeConversation?._id);
+                // sendTypingIndicator(activeConversation?._id);
+                sendTypingIndicator(activeConversation);
               }
               clearTimeout(window.typingTimeout);
               window.typingTimeout = setTimeout(() => {
                 setIsTyping(false);
-                sendStopTyping(activeConversation?._id);
+                sendStopTyping(activeConversation);
+                // sendStopTyping(activeConversation?._id);
               }, 2000);
             }}
             className={`flex-1 rounded-full px-4 py-2 focus:outline-none ${

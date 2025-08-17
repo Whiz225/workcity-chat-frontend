@@ -54,6 +54,11 @@ export async function middleware(request) {
       path: "/",
     });
 
+    cookieStore.set("email", res.user.email, {
+      httpOnly: false,
+      path: "/",
+    });
+
     cookieStore.set("userId", res.user.id, {
       httpOnly: false,
       path: "/",

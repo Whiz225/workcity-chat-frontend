@@ -221,5 +221,11 @@ export async function useLogout() {
     path: "/",
   });
 
+  cookieStore.set("email", "", {
+    httpOnly: false,
+    maxAge: 0,
+    path: "/",
+  });
+
   return { status: "success" };
 }

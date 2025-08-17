@@ -5,7 +5,7 @@ export default async function LoginPage({ searchParams }) {
 
   return (
     <div
-      className={`"flex items-center justify-center min-h-screen" ${
+      className={`flex items-center justify-center min-h-screen ${
         mode === "light" ? "" : "bg-white/50"
       }`}
     >

@@ -20,7 +20,9 @@ export default function RootLayout({ children }) {
           <ChatProvider>
             <div className="min-h-screen">
               <Navbar />
-              <main className="container mx-auto p-4">{children}</main>
+              <main className="container mx-auto p-4">
+                {children}
+              </main>
             </div>
             <Toaster
               position="top-center"

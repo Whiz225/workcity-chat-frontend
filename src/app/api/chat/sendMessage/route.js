@@ -8,6 +8,8 @@ export async function POST(request) {
     const content = formData.get("content");
     const attachment = formData.get("attachment");
 
+    console.log("sendMessageRoute:", conversation, content, attachment);
+
     if (!conversation) {
       return Response.json(
         { error: "Conversation is required" },

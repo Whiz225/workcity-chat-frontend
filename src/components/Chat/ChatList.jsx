@@ -9,10 +9,14 @@ export default function ChatList({ user }) {
   const { conversations, loadConversations, selectConversation, onlineUsers } =
     useChat();
 
-  useEffect(async () => {
-    setIsLoading(true);
-    await loadConversations();
-    setIsLoading(false);
+  useEffect(() => {
+    const handler = async () => {
+      setIsLoading(true);
+      await loadConversations();
+      setIsLoading(false);
+    };
+
+    handler();
   }, []);
 
   const getOtherUser = (participants) => {

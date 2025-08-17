@@ -1,7 +1,8 @@
-/** @type {import('next').NextConfig} */
+// next.config.mjs
 const nextConfig = {
+  // Your configuration here
   experimental: {
-    runtime: "edge",
+    optimizeCss: true,
   },
 };
 

@@ -8,7 +8,7 @@ export default async function ChatPage({ searchParams }) {
 
   return (
     <div
-      className={`"flex h-[calc(100vh-64px)]"  ${
+      className={`flex h-[calc(100vh-64px)] ${
         mode === "light" ? "" : "bg-white/80"
       }`}
     >

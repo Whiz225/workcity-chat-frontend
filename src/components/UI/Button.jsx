@@ -46,28 +46,21 @@ export default function Button({
   const baseClasses =
     "border-none rounded-sm shadow-sm disabled:opacity-75 disabled:cursor-not-allowed transition-colors";
 
-  if (logout || back)
+  if (logout)
     return (
       <button
         className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variation]}`}
-        // disabled={isLoading}
-        onClick={(e) => (logout ? handleLogout(e) : router.back())}
+        onClick={(e) => handleLogout(e)}
       >
         {children}
       </button>
     );
 
-  if (id || onClick)
+  if (onClick)
     return (
       <button
         className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variation]}`}
-        // disabled={isLoading}
-        onClick={() =>
-          id
-            ? handleDelete(id)
-            : typeof onClick === "String"
-            ? router.push(onClick)
-            : onClick()
+        onClick={() =>onClick()
         }
       >
         {children}

@@ -8,14 +8,12 @@ export default async function ChatPage({ params, searchParams }) {
 
   return (
     <div
-      className={`"h-[calc(100vh-64px)] flex" ${
+      className={`h-[calc(100vh-64px)] flex ${
         mode === "light" ? "" : "bg-white/30"
       }`}
     >
-      <div className="w-1/3 border-r border-gray-200">
-        {/* ChatList will be rendered in the layout */}
-      </div>
-      <div className="w-2/3">
+      <div className="w-1/3 border-r border-gray-200"></div>
+      <div className="w-full">
         <ChatWindow conversationId={params.id} userId={userId} />
       </div>
     </div>

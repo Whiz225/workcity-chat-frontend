@@ -105,7 +105,7 @@ export async function getConversationById(conversationId) {
 // }
 
 export async function postMessage(messageData) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const jwt = cookieStore.get("token");
 
   const formData = new FormData();
@@ -118,10 +118,15 @@ export async function postMessage(messageData) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat/messages`, {
     method: "POST",
     body: formData,
+    credentials: "include",
+    // headers: {
+    //   Cookie: `token=${jwt?.value}`,
+    //   "Content-Type": "multipart/form-data",
+    // },
     headers: {
-      Cookie: `token=${jwt?.value}`,
-      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${jwt?.value}`,
     },
+    //  withCredentials: true
   });
 
   console.log("res", res);
@@ -132,5 +137,73 @@ export async function postMessage(messageData) {
 
   console.log("data", data.data);
 
-  return data.data;
+  return data;
+}
+
+export async function getUserStats() {
+  const cookieStore = await cookies();
+  const jwt = cookieStore.get("token");
+
+  const res = await api.get("/admin/stats", {
+    credentials: "include",
+    headers: {
+      Cookie: `jwt=${jwt?.value}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (res.data.status !== "success") {
+    const error = res.data.response?.message;
+
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Unable to load user stats", {
+        message: error.message,
+        stack: error.stack,
+        response: error.response?.data,
+      });
+    }
+
+    throw new Error(
+      process.env.NODE_ENV !== "production" ||
+      error.message === "No response from server. Please check your connection."
+        ? error.message
+        : "Unable to load user stats. Please try again."
+    );
+  }
+
+  return res.data;
+}
+
+export async function getRecentUser() {
+  const cookieStore = await cookies();
+  const jwt = cookieStore.get("token");
+
+  const res = await api.get("/admin/users/recent", {
+    credentials: "include",
+    headers: {
+      Cookie: `jwt=${jwt?.value}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (res.data.status !== "success") {
+    const error = res.data.response?.message;
+
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Unable to load recent users", {
+        message: error.message,
+        stack: error.stack,
+        response: error.response?.data,
+      });
+    }
+
+    throw new Error(
+      process.env.NODE_ENV !== "production" ||
+      error.message === "No response from server. Please check your connection."
+        ? error.message
+        : "Unable to load recent users. Please try again."
+    );
+  }
+
+  return res.data;
 }
